@@ -13,6 +13,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
 
+# Alteração teste
+
 caixa = Caixa()
 caixa.abrir_caixa()
 
