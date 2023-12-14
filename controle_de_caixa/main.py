@@ -12,6 +12,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
+from kivy.uix.actionbar import ActionBar
 
 
 caixa = Caixa()
@@ -27,19 +28,21 @@ class ScreenChange(Screen):
         super().__init__(**kwargs)
         self.name = 'screenChange'
         screen_relativeLayout = RelativeLayout()
-        scroll_view = ScrollView()  # Crie um ScrollView como widget principal
+        scroll_view = ScrollView(size_hint=(1,0.9),pos_hint={'top':0.92})  # Crie um ScrollView como widget principal
 
         # Background
         background = BackgroundWidget()
         screen_relativeLayout.add_widget(background)
 
+        # ActionBar
+        actionbar = ActionBar(pos_hint={'top':1},size_hint=(1,0.9),height=44)
+        screen_relativeLayout.add_widget(actionbar)
+
         # BoxLayout for change count
-        box_change = BoxLayout(orientation='horizontal',size_hint=(0.2,0.2),pos_hint={'center_x':0.5,'center_y':0.95})
-        label_text_change = Label(text='Troco a ser entregue: R$ ',size_hint_x=0.5)
-        box_change.add_widget(label_text_change)
-        label_change = Label(text='{caixa.troco}',size_hint_x=0.6)
-        box_change.add_widget(label_change)
-        screen_relativeLayout.add_widget(box_change)
+        #box_change = BoxLayout(orientation='horizontal',size_hint=(0.2,0.2),pos_hint={'center_x':0.5,'center_y':0.95})
+        #label_text_change = Label(text='Troco a ser entregue: R$ {caixa.troco}',size_hint_x=0.5)
+        #box_change.add_widget(label_text_change)
+        #screen_relativeLayout.add_widget(box_change)
 
         money_notes = caixa.notas  # Assuming caixa.notas is your list
         float_layout_height = 200  # Altura fixa para os FloatLayouts
