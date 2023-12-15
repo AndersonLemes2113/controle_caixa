@@ -12,7 +12,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
-from kivy.uix.actionbar import ActionBar, ActionView, ActionLabel, ActionButton
+from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView, ActionLabel, ActionButton
 
 
 caixa = Caixa()
@@ -37,7 +37,13 @@ class ScreenChange(Screen):
         # ActionBar
         actionbar = ActionBar(pos_hint={'top':1},size_hint=(1,0.9),height=44)
         screen_relativeLayout.add_widget(actionbar)
-
+        # ActionView
+        actionview = ActionView()
+        actionbar.add_widget(actionview)
+        # ActionPrevious
+        actionprevious = ActionPrevious()
+        actionprevious.bind(on_press=self.mudarTela)
+        actionview.add_widget(actionprevious)
 
         money_notes = caixa.notas  # Assuming caixa.notas is your list
         float_layout_height = 200  # Altura fixa para os FloatLayouts
@@ -68,6 +74,9 @@ class ScreenChange(Screen):
         scroll_view.add_widget(grid_layout)  # Adicione o GridLayout ao ScrollView
         screen_relativeLayout.add_widget(scroll_view)
         self.add_widget(screen_relativeLayout)
+
+    def mudarTela(self, intance):
+        self.manager.current = 'menu'
 
 
 class Menu(Screen):
