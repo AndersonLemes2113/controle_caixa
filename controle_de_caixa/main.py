@@ -13,6 +13,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
 from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView, ActionLabel, ActionButton
+from getpass import getpass
 
 
 caixa = Caixa()
@@ -42,6 +43,7 @@ class ScreenChange(Screen):
         actionbar.add_widget(actionview)
         # ActionPrevious
         actionprevious = ActionPrevious()
+        actionprevious.title = "Menu"
         actionprevious.bind(on_press=self.mudarTela)
         actionview.add_widget(actionprevious)
 
@@ -108,31 +110,119 @@ class telaLogin(Screen):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.name = 'tela_login'
-        layout = RelativeLayout()
+        self.layout = RelativeLayout()
 
         background = BackgroundWidget(background_color=(0.5,0.5,0.5,1))
-        layout.add_widget(background)
+        self.layout.add_widget(background)
 
 
         # Input login
-        input_login = TextInput(font_size=15,size_hint=(None,None),size=(500,30),pos_hint={'center_x': 0.5,'y': 0.8})
-        layout.add_widget(input_login)
+        label_login = MyLabelWithBorder(text='Login:',font_size=15,size_hint=(None,None),size=(100,30),pos_hint={'center_x': 0.1,'y': 0.8})
+        self.layout.add_widget(label_login)
+        self.input_login = TextInput(font_size=15,size_hint=(None,None),size=(500,30),pos_hint={'center_x': 0.5,'y': 0.8})
+        self.layout.add_widget(self.input_login)
 
-        button = Button(text='Fazer login',font_size=15,size_hint=(None,None),size=(500,50),pos_hint={'center_x':0.5, 'y': 0.2})
-        layout.add_widget(button)
-        
-        # Button retur to Menu
-        button_menu = Button(text='Retornar ao Menu',on_release=self.mudar_tela_menu,size_hint=(0.2,0.1),width=100,pos_hint={'right':1,'top':1})
-        layout.add_widget(button_menu)
+        # Input Password
+        label_password = MyLabelWithBorder(text='Senha:',font_size=15,size_hint=(None,None),size=(100,30),pos_hint={'center_x':0.1,'y':0.6})
+        self.layout.add_widget(label_password)
+        self.input_password = TextInput(font_size=15,size_hint=(None,None),size=(500,30),pos_hint={'center_x': 0.5,'y': 0.6},password=True,password_mask="*")
+        self.layout.add_widget(self.input_password)
 
-        label = MyLabelWithBorder(text='Hello, World!', size_hint=(None,None),size=(200,50), pos_hint={'center_x': 0.5, 'y': 0})
-        layout.add_widget(label)
+        button = Button(text='Fazer login',font_size=15,size_hint=(None,None),size=(500,50),pos_hint={'center_x':0.5, 'y': 0.3},on_press=self.makeLogin)
+        self.layout.add_widget(button)
         
-        self.add_widget(layout)
+        # Button register user
+        button_registerUser = Button(text='Cadastrar Novo Usuário',on_release=self.registerUser,size_hint=(None,None),width=150,size=(500,50),pos_hint={'center_x':0.5,'y':0.15})
+        self.layout.add_widget(button_registerUser)
+
+        label = MyLabelWithBorder(text='@NerdEntusiasta', size_hint=(None,None),size=(200,50), pos_hint={'center_x': 0.5, 'y': 0})
+        self.layout.add_widget(label)
+        
+        self.add_widget(self.layout)
+
+    def makeLogin(self, instance):
+        login_text = self.input_login.text
+        password_text = self.input_password.text
+        if login_text == '' and password_text =='':
+            label_error = MyLabelWithBorder(text='Erro! Campos login e senha vazios!', font_size=15, size_hint=(None, None),
+                                            size=(400, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+            self.layout.add_widget(label_error)
+        elif login_text == '':
+            label_error = MyLabelWithBorder(text='Erro! Campo login vazio!',font_size=15,size_hint=(None,None),
+                                            size=(300,30),pos_hint={'center_x':0.5,'y':0.4})
+            self.layout.add_widget(label_error)
+        elif password_text == '':
+            label_error = MyLabelWithBorder(text='Erro! Campo Senha vazio!', font_size=15, size_hint=(None, None),
+                                            size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+            self.layout.add_widget(label_error)
+
+    def registerUser(self,instance):
+        self.manager.current = 'registerUser'
 
     def mudar_tela_menu(self,instance):
         self.manager.current = 'menu'
 
+
+class RegisterUser(Screen):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        self.name = 'registerUser'
+
+        self.layout = RelativeLayout()
+
+        background = BackgroundWidget(background_color=(0.5, 0.5, 0.5, 1))
+        self.layout.add_widget(background)
+
+        # Input login
+        label_login = MyLabelWithBorder(text='Login:', font_size=15, size_hint=(None, None), size=(100, 30),
+                                        pos_hint={'center_x': 0.1, 'y': 0.8})
+        self.layout.add_widget(label_login)
+        self.input_login = TextInput(font_size=15, size_hint=(None, None), size=(500, 30),
+                                     pos_hint={'center_x': 0.5, 'y': 0.8})
+        self.layout.add_widget(self.input_login)
+
+        # Input Password
+        label_password = MyLabelWithBorder(text='Senha:', font_size=15, size_hint=(None, None), size=(100, 30),
+                                           pos_hint={'center_x': 0.1, 'y': 0.6},)
+        self.layout.add_widget(label_password)
+        self.input_password = TextInput(font_size=15, size_hint=(None, None), size=(500, 30),
+                                        pos_hint={'center_x': 0.5, 'y': 0.6},password=True,password_mask="*")
+        self.layout.add_widget(self.input_password)
+
+        self.button_registerUser = Button(text='Cadastrar Usuário', font_size=15, size_hint=(None, None), size=(500, 50),
+                        pos_hint={'center_x': 0.5, 'y': 0.3},on_press=self.registerUser)
+        self.layout.add_widget(self.button_registerUser)
+
+        self.add_widget(self.layout)
+
+    def registerUser(self,instance):
+        text_login = self.input_login.text
+        text_password = self.input_password.text
+        if text_login and text_password:
+            with open('user_data.txt', 'a') as file:
+                file.write(f'Login: {text_login}, Password: {text_password}\n')
+                label_success = MyLabelWithBorder(text='Usuário Cadastrado com Sucesso!', font_size=15, size_hint=(None, None),
+                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+                self.layout.add_widget(label_success)
+                self.layout.remove_widget(self.button_registerUser)
+                button_okay = Button(text='OK',font_size=15, size_hint=(None, None),
+                                                size=(100, 30), pos_hint={'center_x': 0.5, 'y': 0.2},on_press=self.changeScreenLogin)
+                self.layout.add_widget(button_okay)
+        elif text_login == '' and text_password =='':
+            label_error = MyLabelWithBorder(text='Erro! Campos login e senha vazios!', font_size=15, size_hint=(None, None),
+                                            size=(400, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+            self.layout.add_widget(label_error)
+        elif text_login == '':
+            label_error = MyLabelWithBorder(text='Erro! Campo login vazio!',font_size=15,size_hint=(None,None),
+                                            size=(300,30),pos_hint={'center_x':0.5,'y':0.4})
+            self.layout.add_widget(label_error)
+        elif text_password == '':
+            label_error = MyLabelWithBorder(text='Erro! Campo Senha vazio!', font_size=15, size_hint=(None, None),
+                                            size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+            self.layout.add_widget(label_error)
+
+    def changeScreenLogin(self,instance):
+        self.manager.current = 'tela_login'
 
 class Atendimento(Screen):
     def __init__(self, **kwargs):
@@ -230,10 +320,11 @@ class MeuApp(App):
     def build(self):
         sm = MyScreenManager()
 
-        sm.add_widget(Atendimento())
         sm.add_widget(telaLogin())
+        sm.add_widget(Atendimento())
         sm.add_widget(Menu())
         sm.add_widget(ScreenChange())
+        sm.add_widget(RegisterUser())
 
         return sm
 
