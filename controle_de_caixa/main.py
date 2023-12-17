@@ -13,6 +13,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
 from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView
+from kivy.uix.popup import Popup
 
 caixa = Caixa()
 caixa.abrir_caixa()
@@ -182,6 +183,10 @@ class telaLogin(Screen):
                 label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
                                                 size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
                 self.layout.add_widget(label_sucess)
+                popup_sucess = Popup(title='Test popup',content=Label(text='Sucesso ao fazer login!'),size_hint=(None,None),size=(400,400),auto_dismiss=True)
+                close_popup_button = Button(text="X",on_press=popup_sucess.dismiss,size_hint=(None,None),size=(100,100))
+                popup_sucess.content.add_widget(close_popup_button)
+                popup_sucess.open()
                 self.input_login.text = ''
                 self.input_password.text = ''
                 self.layout.remove_widget(label_sucess)
