@@ -7,3 +7,5 @@ Login: 65465465, Password: asdasd
 Login: 324654165, Password: asdasdsad
 Login: azsdasdas, Password: 45263453453
 Login: kjhsagdkjahskdjhsadj, Password: asd54as65d4as56
+Login: 564654654564, Password: asdasdfasfsadfsda
+Login: jujubinha@juju, Password: 123456789

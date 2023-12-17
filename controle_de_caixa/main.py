@@ -155,6 +155,41 @@ class telaLogin(Screen):
             label_error = MyLabelWithBorder(text='Erro! Campo Senha vazio!', font_size=15, size_hint=(None, None),
                                             size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
             self.layout.add_widget(label_error)
+        else:
+            def is_credentials_registered(login, password, data):
+                # Iterate through the data and check if the login and password are present
+                for record in data:
+                    if record['Login'] == login and record['Password'] == password:
+                        return True
+                return False
+            with open('user_data.txt','r') as file:
+                lines = file.readlines()
+
+                data = []
+
+                for line in lines:
+                    login_start=line.find('login: ') + len('login: ')
+                    login_end = line.find(',')
+                    password_start = line.find('Password: ') + len('Password: ')
+                    password_end = len(line)
+
+                    login = line[login_start:login_end].strip()
+                    password = line[password_start:password_end].strip()
+
+                    record_dict = {'Login': login, 'Password': password}
+
+                    data.append(record_dict)
+            login_to_check = login_text
+            password_to_check = password_text
+            if is_credentials_registered(login_to_check, password_to_check, data):
+                label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
+                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+                self.layout.add_widget(label_sucess)
+            else:
+                label_error = MyLabelWithBorder(text='Erro! Usuário não registrado ou incorreto!', font_size=15, size_hint=(None, None),
+                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
+                self.layout.add_widget(label_error)
+                print(record_dict)
 
     def registerUser(self,instance):
         self.manager.current = 'registerUser'
