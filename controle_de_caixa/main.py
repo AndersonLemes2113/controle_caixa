@@ -13,7 +13,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
 from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView, ActionLabel, ActionButton
-from getpass import getpass
+from kivy.core.window import Window
 
 
 caixa = Caixa()
@@ -115,7 +115,6 @@ class telaLogin(Screen):
         background = BackgroundWidget(background_color=(0.5,0.5,0.5,1))
         self.layout.add_widget(background)
 
-
         # Input login
         label_login = MyLabelWithBorder(text='Login:',font_size=15,size_hint=(None,None),size=(100,30),pos_hint={'center_x': 0.1,'y': 0.8})
         self.layout.add_widget(label_login)
@@ -185,6 +184,11 @@ class telaLogin(Screen):
                 label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
                                                 size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
                 self.layout.add_widget(label_sucess)
+                self.input_login.text = ''
+                self.input_password.text = ''
+                self.layout.remove_widget(label_sucess)
+                self.manager.current = 'menu'
+
             else:
                 label_error = MyLabelWithBorder(text='Erro! Usuário não registrado ou incorreto!', font_size=15, size_hint=(None, None),
                                                 size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
@@ -258,6 +262,7 @@ class RegisterUser(Screen):
 
     def changeScreenLogin(self,instance):
         self.manager.current = 'tela_login'
+
 
 class Atendimento(Screen):
     def __init__(self, **kwargs):
