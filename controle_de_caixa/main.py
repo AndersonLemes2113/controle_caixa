@@ -12,9 +12,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.image import Image
 from classe_Caixa import Caixa
-from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView, ActionLabel, ActionButton
-from kivy.core.window import Window
-
+from kivy.uix.actionbar import ActionBar, ActionPrevious, ActionView
 
 caixa = Caixa()
 caixa.abrir_caixa()
