@@ -183,10 +183,13 @@ class telaLogin(Screen):
                 label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
                                                 size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
                 self.layout.add_widget(label_sucess)
+
+                # Popup Sucess Login
                 popup_sucess = Popup(title='Test popup',content=Label(text='Sucesso ao fazer login!'),size_hint=(None,None),size=(200,200),auto_dismiss=True)
                 close_popup_button = Button(text="X",on_press=popup_sucess.dismiss,size_hint=(None,None),size=(50,50),pos_hint={'center_x':0.2,'y':0.8})
                 popup_sucess.content.add_widget(close_popup_button)
                 popup_sucess.open()
+
                 self.input_login.text = ''
                 self.input_password.text = ''
                 self.layout.remove_widget(label_sucess)
@@ -258,9 +261,10 @@ class RegisterUser(Screen):
         self.add_widget(self.layout)
 
     def registerUser(self,instance):
+        text_user = self.input_user.text
         text_login = self.input_login.text
         text_password = self.input_password.text
-        if text_login and text_password:
+        if text_login and text_password and text_user:
             with open('user_data.txt', 'a') as file:
                 file.write(f'Login: {text_login}, Password: {text_password}\n')
                 label_success = MyLabelWithBorder(text='Usuário Cadastrado com Sucesso!', font_size=15, size_hint=(None, None),
@@ -270,18 +274,52 @@ class RegisterUser(Screen):
                 button_okay = Button(text='OK',font_size=15, size_hint=(None, None),
                                                 size=(100, 30), pos_hint={'center_x': 0.5, 'y': 0.2},on_press=self.changeScreenLogin)
                 self.layout.add_widget(button_okay)
-        elif text_login == '' and text_password =='':
-            label_error = MyLabelWithBorder(text='Erro! Campos login e senha vazios!', font_size=15, size_hint=(None, None),
-                                            size=(400, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-            self.layout.add_widget(label_error)
+        elif text_user == '' and text_login == '' and text_password == '':
+            popup_sucess = Popup(title='Erro', content=Label(text='Campos Usuário, \nlogin e senha vazios!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
+
+        elif text_user == '' and text_login == '':
+            popup_sucess = Popup(title='Erro', content=Label(text='Campos Usuário e login \nvazios!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
+
+        elif text_login == '' and text_password == '':
+            popup_sucess = Popup(title='Erro', content=Label(text='Campos login e senha \nvazios!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
+
+        elif text_user == '':
+            popup_sucess = Popup(title='Erro', content=Label(text='Campo Usuário vazio!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
+
         elif text_login == '':
-            label_error = MyLabelWithBorder(text='Erro! Campo login vazio!',font_size=15,size_hint=(None,None),
-                                            size=(300,30),pos_hint={'center_x':0.5,'y':0.4})
-            self.layout.add_widget(label_error)
+            popup_sucess = Popup(title='Erro', content=Label(text='Campo login vazio!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
         elif text_password == '':
-            label_error = MyLabelWithBorder(text='Erro! Campo Senha vazio!', font_size=15, size_hint=(None, None),
-                                            size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-            self.layout.add_widget(label_error)
+            popup_sucess = Popup(title='Erro', content=Label(text='Campo senha vazio!'),
+                                 size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_sucess.content.add_widget(close_popup_button)
+            popup_sucess.open()
 
     def changeScreenLogin(self,instance):
         self.manager.current = 'tela_login'
