@@ -183,8 +183,8 @@ class telaLogin(Screen):
                 label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
                                                 size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
                 self.layout.add_widget(label_sucess)
-                popup_sucess = Popup(title='Test popup',content=Label(text='Sucesso ao fazer login!'),size_hint=(None,None),size=(400,400),auto_dismiss=True)
-                close_popup_button = Button(text="X",on_press=popup_sucess.dismiss,size_hint=(None,None),size=(100,100))
+                popup_sucess = Popup(title='Test popup',content=Label(text='Sucesso ao fazer login!'),size_hint=(None,None),size=(200,200),auto_dismiss=True)
+                close_popup_button = Button(text="X",on_press=popup_sucess.dismiss,size_hint=(None,None),size=(50,50),pos_hint={'center_x':0.2,'y':0.8})
                 popup_sucess.content.add_widget(close_popup_button)
                 popup_sucess.open()
                 self.input_login.text = ''
@@ -215,24 +215,44 @@ class RegisterUser(Screen):
         background = BackgroundWidget(background_color=(0.5, 0.5, 0.5, 1))
         self.layout.add_widget(background)
 
+        # ActionBar
+        actionbar = ActionBar(pos_hint={'top': 1}, size_hint=(1, 0.9), height=44)
+        self.layout.add_widget(actionbar)
+
+        # ActionView
+        actionview = ActionView()
+        actionbar.add_widget(actionview)
+
+        # ActionPrevious
+        actionprevious = ActionPrevious()
+        actionprevious.title = "Tela Login"
+        actionprevious.bind(on_press=self.changeScreenLogin)
+        actionview.add_widget(actionprevious)
+
+        # Input User
+        label_user = MyLabelWithBorder(text='Nome de Usuário: ',font_size=15, size_hint=(None,None), size=(130,30), pos_hint={'center_x':0.1,'y':0.8})
+        self.input_user = TextInput(font_size=15, size_hint=(None,None), size=(500,30), pos_hint={'center_x':0.5, 'y':0.8})
+        self.layout.add_widget(label_user)
+        self.layout.add_widget(self.input_user)
+
         # Input login
         label_login = MyLabelWithBorder(text='Login:', font_size=15, size_hint=(None, None), size=(100, 30),
-                                        pos_hint={'center_x': 0.1, 'y': 0.8})
+                                        pos_hint={'center_x': 0.1, 'y': 0.6})
         self.layout.add_widget(label_login)
         self.input_login = TextInput(font_size=15, size_hint=(None, None), size=(500, 30),
-                                     pos_hint={'center_x': 0.5, 'y': 0.8})
+                                     pos_hint={'center_x': 0.5, 'y': 0.6})
         self.layout.add_widget(self.input_login)
 
         # Input Password
         label_password = MyLabelWithBorder(text='Senha:', font_size=15, size_hint=(None, None), size=(100, 30),
-                                           pos_hint={'center_x': 0.1, 'y': 0.6},)
+                                           pos_hint={'center_x': 0.1, 'y': 0.4},)
         self.layout.add_widget(label_password)
         self.input_password = TextInput(font_size=15, size_hint=(None, None), size=(500, 30),
-                                        pos_hint={'center_x': 0.5, 'y': 0.6},password=True,password_mask="*")
+                                        pos_hint={'center_x': 0.5, 'y': 0.4},password=True,password_mask="*")
         self.layout.add_widget(self.input_password)
 
         self.button_registerUser = Button(text='Cadastrar Usuário', font_size=15, size_hint=(None, None), size=(500, 50),
-                        pos_hint={'center_x': 0.5, 'y': 0.3},on_press=self.registerUser)
+                        pos_hint={'center_x': 0.5, 'y': 0.1},on_press=self.registerUser)
         self.layout.add_widget(self.button_registerUser)
 
         self.add_widget(self.layout)
