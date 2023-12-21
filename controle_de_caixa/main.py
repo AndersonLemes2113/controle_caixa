@@ -43,13 +43,13 @@ class ScreenChange(Screen):
         # ActionPrevious
         actionprevious = ActionPrevious()
         actionprevious.title = "Menu"
-        actionprevious.bind(on_press=self.mudarTela)
+        actionprevious.bind(on_press=self.screenChange)
         actionview.add_widget(actionprevious)
 
-        money_notes = caixa.notas  # Assuming caixa.notas is your list
-        float_layout_height = 200  # Altura fixa para os FloatLayouts
+        money_notes = caixa.notas
+        float_layout_height = 200
 
-        grid_layout = GridLayout(cols=4, spacing=5, size_hint_y=None)  # Use GridLayout para organizar os FloatLayouts
+        grid_layout = GridLayout(cols=4, spacing=5, size_hint_y=None)
 
         for v in money_notes:
             float_layout = FloatLayout(size_hint_y=None, height=float_layout_height)
@@ -70,13 +70,13 @@ class ScreenChange(Screen):
 
             grid_layout.add_widget(float_layout)
 
-        grid_layout.bind(minimum_height=grid_layout.setter('height'))  # Atualize a altura do GridLayout
+        grid_layout.bind(minimum_height=grid_layout.setter('height'))
 
-        scroll_view.add_widget(grid_layout)  # Adicione o GridLayout ao ScrollView
+        scroll_view.add_widget(grid_layout)
         screen_relativeLayout.add_widget(scroll_view)
         self.add_widget(screen_relativeLayout)
 
-    def mudarTela(self, intance):
+    def screenChange(self, intance):
         self.manager.current = 'menu'
 
 
@@ -86,9 +86,9 @@ class Menu(Screen):
         self.name = 'menu'
         self.layout = BoxLayout(orientation='vertical')
 
-        self.button1 = Button(text='Tela Login',on_release=self.mudarTela)
-        self.button2 = Button(text='Tela Atendente',on_release=self.mudarTela)
-        self.button3 = Button(text='Tela Troco',on_release=self.mudarTela)
+        self.button1 = Button(text='Tela Login',on_release=self.screenChange)
+        self.button2 = Button(text='Tela Atendente',on_release=self.screenChange)
+        self.button3 = Button(text='Tela Troco',on_release=self.screenChange)
 
         self.layout.add_widget(self.button1)
         self.layout.add_widget(self.button2)
@@ -96,19 +96,19 @@ class Menu(Screen):
 
         self.add_widget(self.layout)
 
-    def mudarTela(self,instance):
+    def screenChange(self,instance):
         if instance == self.button1:
-            self.manager.current = 'tela_login'
+            self.manager.current = 'screenlogin'
         elif instance == self.button2:
-            self.manager.current = 'tela_atendimento'
+            self.manager.current = 'serviceScreen'
         elif instance == self.button3:
             self.manager.current = 'screenChange'
 
 
-class telaLogin(Screen):
+class ScreenLogin(Screen):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.name = 'tela_login'
+        self.name = 'screenlogin'
         self.layout = RelativeLayout()
 
         background = BackgroundWidget(background_color=(0.5,0.5,0.5,1))
@@ -155,7 +155,6 @@ class telaLogin(Screen):
             self.layout.add_widget(label_error)
         else:
             def is_credentials_registered(login, password, data):
-                # Iterate through the data and check if the login and password are present
                 for record in data:
                     if record['Login'] == login and record['Password'] == password:
                         return True
@@ -203,9 +202,6 @@ class telaLogin(Screen):
 
     def registerUser(self,instance):
         self.manager.current = 'registerUser'
-
-    def mudar_tela_menu(self,instance):
-        self.manager.current = 'menu'
 
 
 class RegisterUser(Screen):
@@ -275,62 +271,62 @@ class RegisterUser(Screen):
                                                 size=(100, 30), pos_hint={'center_x': 0.5, 'y': 0.2},on_press=self.changeScreenLogin)
                 self.layout.add_widget(button_okay)
         elif text_user == '' and text_login == '' and text_password == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campos Usuário, \nlogin e senha vazios!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campos Usuário, \nlogin e senha vazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
 
         elif text_user == '' and text_login == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campos Usuário e login \nvazios!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campos Usuário e login \nvazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
 
         elif text_login == '' and text_password == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campos login e senha \nvazios!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campos login e senha \nvazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
 
         elif text_user == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campo Usuário vazio!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campo Usuário vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
 
         elif text_login == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campo login vazio!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campo login vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
         elif text_password == '':
-            popup_sucess = Popup(title='Erro', content=Label(text='Campo senha vazio!'),
+            popup_error = Popup(title='Erro', content=Label(text='Campo senha vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
-            close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None), size=(50, 50),
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
-            popup_sucess.content.add_widget(close_popup_button)
-            popup_sucess.open()
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
 
     def changeScreenLogin(self,instance):
-        self.manager.current = 'tela_login'
+        self.manager.current = 'screenlogin'
 
 
-class Atendimento(Screen):
+class ServiceScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = 'tela_atendimento'
+        self.name = 'serviceScreen'
         layout = RelativeLayout()
-        saldo = caixa.valor
+        balance = caixa.valor
 
         # Background
         background = BackgroundWidget()
@@ -348,14 +344,12 @@ class Atendimento(Screen):
         self.label = Label(text='Iniciando novo atendimento...', font_size=30)
         self.box_labels.add_widget(self.label)
 
-        # Label Saldo Caixa
-        label_saldo = MyLabelWithBorder(text=f'Valor no caixa: R$ {saldo:.2f}',size_hint=(0.3,0.1),width=100,pos_hint={'left':0.99,'top':0.99})
-        layout.add_widget(label_saldo)
-
-        # Label Valor da Compra
+        # Label balance
+        label_balance = MyLabelWithBorder(text=f'Valor no caixa: R$ {balance:.2f}',size_hint=(0.3,0.1),width=100,pos_hint={'left':0.99,'top':0.99})
+        layout.add_widget(label_balance)
 
         # Button Menu
-        button_menu = Button(text='Menu',on_release=self.mudar_tela_menu,size_hint=(0.2,0.1),width=100,pos_hint={'right':1,'top':0.99})
+        button_menu = Button(text='Menu',on_release=self.changeScreen_menu,size_hint=(0.2,0.1),width=100,pos_hint={'right':1,'top':0.99})
         layout.add_widget(button_menu)
 
         # Button
@@ -378,7 +372,7 @@ class Atendimento(Screen):
         self.box_labels.add_widget(new_label)
         self.text_input.text = ""
 
-    def mudar_tela_menu(self,instance):
+    def changeScreen_menu(self,instance):
         self.manager.current = 'menu'        
 
 
@@ -386,15 +380,11 @@ class BackgroundWidget(Widget):
     def __init__(self,background_color=(0,0,0.5,1), **kwargs):
         super(BackgroundWidget, self).__init__(**kwargs)
         with self.canvas:
-            # Set the background color to a stronger blue (R: 0, G: 0, B: 0.5, A: 1)
             Color(*background_color)
             self.rect = Rectangle(size=self.size, pos=self.pos)
-
-        # Bind the update_rect method to any changes in the widget size or position
         self.bind(size=self.update_rect, pos=self.update_rect)
 
     def update_rect(self, instance, value):
-        # Update the rectangle's size and position when the widget changes
         self.rect.pos = self.pos
         self.rect.size = self.size
 
@@ -402,27 +392,23 @@ class BackgroundWidget(Widget):
 class MyLabelWithBorder(Label):
     def __init__(self, text, **kwargs):
         super(MyLabelWithBorder, self).__init__(text=text, **kwargs)
-
-        # Create a background color for the label
         with self.canvas.before:
             Color(0, 0, 0, 1)  # Set the color to black
             self.rect = Rectangle(pos=self.pos, size=self.size)
 
-        # Bind the update_rect method to any changes in the label's size or position
         self.bind(size=self.update_rect, pos=self.update_rect)
 
     def update_rect(self, instance, value):
-        # Update the background rectangle's position and size to match the label
         self.rect.pos = instance.pos
         self.rect.size = instance.size
 
 
-class MeuApp(App):
+class MyApp(App):
     def build(self):
         sm = MyScreenManager()
 
-        sm.add_widget(telaLogin())
-        sm.add_widget(Atendimento())
+        sm.add_widget(ScreenLogin())
+        sm.add_widget(ServiceScreen())
         sm.add_widget(Menu())
         sm.add_widget(ScreenChange())
         sm.add_widget(RegisterUser())
@@ -431,6 +417,6 @@ class MeuApp(App):
 
 
 if __name__ == "__main__":
-    app = MeuApp()
+    app = MyApp()
     app.run()
 
