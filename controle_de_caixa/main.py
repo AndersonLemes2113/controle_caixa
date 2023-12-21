@@ -142,17 +142,26 @@ class ScreenLogin(Screen):
         login_text = self.input_login.text
         password_text = self.input_password.text
         if login_text == '' and password_text =='':
-            label_error = MyLabelWithBorder(text='Erro! Campos login e senha vazios!', font_size=15, size_hint=(None, None),
-                                            size=(400, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-            self.layout.add_widget(label_error)
+            popup_error = Popup(title='Erro!', content=Label(text='Campos login e senha \nvazios!'),
+                                size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
         elif login_text == '':
-            label_error = MyLabelWithBorder(text='Erro! Campo login vazio!',font_size=15,size_hint=(None,None),
-                                            size=(300,30),pos_hint={'center_x':0.5,'y':0.4})
-            self.layout.add_widget(label_error)
+            popup_error = Popup(title='Erro!', content=Label(text='Campo login vazio!'),
+                                size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
         elif password_text == '':
-            label_error = MyLabelWithBorder(text='Erro! Campo Senha vazio!', font_size=15, size_hint=(None, None),
-                                            size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-            self.layout.add_widget(label_error)
+            popup_error = Popup(title='Erro!', content=Label(text='Campo senha vazio!'),
+                                size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+            close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
+                                        pos_hint={'center_x': 0.2, 'y': 0.8})
+            popup_error.content.add_widget(close_popup_button)
+            popup_error.open()
         else:
             def is_credentials_registered(login, password, data):
                 for record in data:
@@ -179,10 +188,6 @@ class ScreenLogin(Screen):
             login_to_check = login_text
             password_to_check = password_text
             if is_credentials_registered(login_to_check, password_to_check, data):
-                label_sucess = MyLabelWithBorder(text='Sucesso ao fazer login!', font_size=15, size_hint=(None, None),
-                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-                self.layout.add_widget(label_sucess)
-
                 # Popup Sucess Login
                 popup_sucess = Popup(title='Test popup',content=Label(text='Sucesso ao fazer login!'),size_hint=(None,None),size=(200,200),auto_dismiss=True)
                 close_popup_button = Button(text="X",on_press=popup_sucess.dismiss,size_hint=(None,None),size=(50,50),pos_hint={'center_x':0.2,'y':0.8})
@@ -191,14 +196,16 @@ class ScreenLogin(Screen):
 
                 self.input_login.text = ''
                 self.input_password.text = ''
-                self.layout.remove_widget(label_sucess)
                 self.manager.current = 'menu'
 
             else:
-                label_error = MyLabelWithBorder(text='Erro! Usuário não registrado ou incorreto!', font_size=15, size_hint=(None, None),
-                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-                self.layout.add_widget(label_error)
-                print(record_dict)
+                popup_error = Popup(title='Erro!', content=Label(text='Erro ao fazer login!\nVerifique os dados e tente \nnovamente!'),
+                                    size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+                close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None),
+                                            size=(50, 50),
+                                            pos_hint={'center_x': 0.2, 'y': 0.8})
+                popup_error.content.add_widget(close_popup_button)
+                popup_error.open()
 
     def registerUser(self,instance):
         self.manager.current = 'registerUser'
@@ -263,15 +270,18 @@ class RegisterUser(Screen):
         if text_login and text_password and text_user:
             with open('user_data.txt', 'a') as file:
                 file.write(f'Login: {text_login}, Password: {text_password}\n')
-                label_success = MyLabelWithBorder(text='Usuário Cadastrado com Sucesso!', font_size=15, size_hint=(None, None),
-                                                size=(300, 30), pos_hint={'center_x': 0.5, 'y': 0.4})
-                self.layout.add_widget(label_success)
                 self.layout.remove_widget(self.button_registerUser)
-                button_okay = Button(text='OK',font_size=15, size_hint=(None, None),
-                                                size=(100, 30), pos_hint={'center_x': 0.5, 'y': 0.2},on_press=self.changeScreenLogin)
-                self.layout.add_widget(button_okay)
+                popup_sucess = Popup(title='Cadastro Efetuado!', content=Label(text='Sucesso ao fazer novo\n cadastro!\nEfetue o login.'),
+                                    size_hint=(None, None), size=(200, 200), auto_dismiss=True)
+                close_popup_button = Button(text="X", on_press=popup_sucess.dismiss, size_hint=(None, None),
+                                            size=(50, 50),
+                                            pos_hint={'center_x': 0.2, 'y': 0.8})
+                popup_sucess.content.add_widget(close_popup_button)
+                popup_sucess.open()
+                self.changeScreenLogin(instance)
+
         elif text_user == '' and text_login == '' and text_password == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campos Usuário, \nlogin e senha vazios!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campos Usuário, \nlogin e senha vazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
@@ -279,7 +289,7 @@ class RegisterUser(Screen):
             popup_error.open()
 
         elif text_user == '' and text_login == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campos Usuário e login \nvazios!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campos Usuário e login \nvazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
@@ -287,7 +297,7 @@ class RegisterUser(Screen):
             popup_error.open()
 
         elif text_login == '' and text_password == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campos login e senha \nvazios!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campos login e senha \nvazios!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
@@ -295,7 +305,7 @@ class RegisterUser(Screen):
             popup_error.open()
 
         elif text_user == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campo Usuário vazio!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campo Usuário vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
@@ -303,14 +313,14 @@ class RegisterUser(Screen):
             popup_error.open()
 
         elif text_login == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campo login vazio!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campo login vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
             popup_error.content.add_widget(close_popup_button)
             popup_error.open()
         elif text_password == '':
-            popup_error = Popup(title='Erro', content=Label(text='Campo senha vazio!'),
+            popup_error = Popup(title='Erro!', content=Label(text='Campo senha vazio!'),
                                  size_hint=(None, None), size=(200, 200), auto_dismiss=True)
             close_popup_button = Button(text="X", on_press=popup_error.dismiss, size_hint=(None, None), size=(50, 50),
                                         pos_hint={'center_x': 0.2, 'y': 0.8})
