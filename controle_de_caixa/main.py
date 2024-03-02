@@ -86,22 +86,18 @@ class Menu(Screen):
         self.name = 'menu'
         self.layout = BoxLayout(orientation='vertical')
 
-        self.button1 = Button(text='Tela Login',on_release=self.screenChange)
-        self.button2 = Button(text='Tela Atendente',on_release=self.screenChange)
-        self.button3 = Button(text='Tela Troco',on_release=self.screenChange)
+        self.button1 = Button(text='Tela Atendente',on_release=self.screenChange)
+        self.button2 = Button(text='Tela Troco',on_release=self.screenChange)
 
         self.layout.add_widget(self.button1)
         self.layout.add_widget(self.button2)
-        self.layout.add_widget(self.button3)
 
         self.add_widget(self.layout)
 
     def screenChange(self,instance):
         if instance == self.button1:
-            self.manager.current = 'screenlogin'
-        elif instance == self.button2:
             self.manager.current = 'serviceScreen'
-        elif instance == self.button3:
+        elif instance == self.button2:
             self.manager.current = 'screenChange'
 
 
