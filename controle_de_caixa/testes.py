@@ -7,3 +7,5 @@ print(caixa1.contar_dinheiro())
 prateleira1 = Produtos()
 venda = prateleira1.vender()
 caixa1.dar_troco(venda)
+
+#Alterei por teste
